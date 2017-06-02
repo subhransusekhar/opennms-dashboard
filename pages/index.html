@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>OpenNMS Dashboard</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- MetisMenu CSS -->
+  <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Morris Charts CSS -->
+  <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">OpenNMS Dashboard</a>
+      </div>
+      <!-- /.navbar-header -->
+
+      <!-- /.navbar-top-links -->
+
+      <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+          <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+              <div class="input-group custom-search-form">
+                <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
+              </div>
+              <!-- /input-group -->
+            </li>
+            <li>
+              <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+              <a href="nodes.html"><i class="fa fa-server fa-fw"></i> Nodes</a>
+            </li>
+            <li>
+              <a href="events.html"><i class="fa fa-tasks fa-fw"></i> Events</a>
+            </li>
+            <li>
+              <a href="alarms.html"><i class="fa fa-bell fa-fw"></i> Alarms</a>
+            </li>
+            <li>
+              <a href="outages.html"><i class="fa fa-warning fa-fw"></i> Outages</a>
+            </li>
+            <li>
+              <a href="graphs.html"><i class="fa fa-bar-chart-o fa-fw"></i> Graphs</a>
+            </li>
+          </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+      </div>
+      <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">Dashboard</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-server fa-5x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div id="opennms-nodes" class="huge"></div>
+                  <div>Nodes</div>
+                </div>
+              </div>
+            </div>
+            <a href="nodes.html">
+              <div class="panel-footer">
+                <span class="pull-left">View Details</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="panel panel-green">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-tasks fa-5x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div id="opennms-events" class="huge">12</div>
+                  <div>Events!</div>
+                </div>
+              </div>
+            </div>
+            <a href="events.html">
+              <div class="panel-footer">
+                <span class="pull-left">View Details</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="panel panel-yellow">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-bell fa-5x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div id="opennms-alarms" class="huge"></div>
+                  <div>Alarms!</div>
+                </div>
+              </div>
+            </div>
+            <a href="alarms.html">
+              <div class="panel-footer">
+                <span class="pull-left">View Details</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="panel panel-red">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-warning fa-5x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div id="opennms-outages" class="huge"></div>
+                  <div>Outages!</div>
+                </div>
+              </div>
+            </div>
+            <a href="outages.html">
+              <div class="panel-footer">
+                <span class="pull-left">View Details</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Nodes Summary
+            </div>
+            <div id="opennms-nodes-body" class="panel-body">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#page-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <script src="../backshift/bower_components/jquery/dist/jquery.min.js"></script>
+
+  <script src="../backshift/src/Compat.js"></script>
+  <script src="../backshift/src/Backshift.js"></script>
+  <script src="../backshift/src/Backshift.Class.js"></script>
+  <script src="../backshift/src/Backshift.Class.Configurable.js"></script>
+  <script src="../backshift/src/Backshift.Math.js"></script>
+  <script src="../backshift/src/Backshift.Stats.js"></script>
+  <script src="../backshift/src/Backshift.Utilities.Url.js"></script>
+  <script src="../backshift/src/Backshift.Utilities.RpnToJexlConverter.js"></script>
+  <script src="../backshift/src/Backshift.Utilities.Consolidator.js"></script>
+  <script src="../backshift/src/Backshift.Utilities.RrdGraphVisitor.js"></script>
+  <script src="../backshift/src/Backshift.Utilities.RrdGraphConverter.js"></script>
+  <script src="../backshift/src/Backshift.DataSource.js"></script>
+  <script src="../backshift/src/Backshift.DataSource.OpenNMS.js"></script>
+
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="../dist/js/sb-admin-2.js"></script>
+  <script src="../dist/js/opennms.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function () {
+    var resource = '';
+    // Pull in the graph definition
+    $.ajax({
+      url: getBaseHref() + '/opennms/rest/nodes',
+      dataType: 'json',
+      headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
+      xhrFields: {
+        withCredentials: true
+      },
+      context: $(this)
+    }).done(function (results) {
+      $('#opennms-nodes').html(results.totalCount);
+      var jsonData = results.node;
+      $.each(jsonData, function() {
+        resource = this.id;
+        var row = '<div class="col-lg-4">'+
+        '<div class="panel panel-info">'+
+        '<div class="panel-heading">' + this.sysName + ' (' + this.id + ')' + '</div>'+
+        '<div class="panel-body"><p>' + this.sysDescription + '</p><p id="snmp"></p>';
+        row += '</div></div></div>';
+        var $row = $(row);
+        $('#opennms-nodes-body').append($row);
+        // _get_opennms_measurement(resource, $row);
+
+      });
+    });
+    $.ajax({
+      url: getBaseHref() + '/opennms/rest/outages/count',
+      dataType: 'json',
+      headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
+      xhrFields: {
+        withCredentials: true
+      },
+      context: $(this)
+    }).done(function (results) {
+      $('#opennms-outages').html(results);
+    });
+    $.ajax({
+      url: getBaseHref() + '/opennms/rest/alarms/count',
+      dataType: 'json',
+      headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
+      xhrFields: {
+        withCredentials: true
+      },
+      context: $(this)
+    }).done(function (results) {
+      $('#opennms-alarms').html(results);
+    });
+    $.ajax({
+      url: getBaseHref() + '/opennms/rest/events/count',
+      dataType: 'json',
+      headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
+      xhrFields: {
+        withCredentials: true
+      },
+      context: $(this)
+    }).done(function (results) {
+      $('#opennms-events').html(results);
+    });
+  });
+  function _get_opennms_measurement(resourceId, $element) {
+    var ds = new Backshift.DataSource.OpenNMS({
+        url: getBaseHref() + "/opennms/rest/measurements",
+        username: onmsUsername,
+        password: onmsPassword,
+        // Define the metrics you want to retrieve
+        metrics: [
+            {
+                name: "CpuRawUser",
+                resourceId: "node[" + resourceId + "].nodeSnmp[]",
+                attribute: "CpuRawUser",
+                aggregation: "AVERAGE"
+            },
+            {
+                name: "context",
+                resourceId: "node[" + resourceId + "].nodeSnmp[]",
+                attribute: "SysRawContext",
+                aggregation: "AVERAGE"
+            }
+        ]
+    });
+
+    // Retrieve the metrics over a given timespan with the desired resolution (i.e. number of points)
+    ds.query(start, end, resolution).then(function(results) {
+      $('.panel-body', $element).append(JSON.stringify(results, null, 4));
+    }, function(err){
+
+    });
+  }
+  </script>
+</body>
+
+</html>
