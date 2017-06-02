@@ -253,14 +253,14 @@
       var jsonData = results.node;
       $.each(jsonData, function() {
         resource = this.id;
-        var row = '<div class="col-lg-4">'+
+        var row = '<div class="col-lg-6">'+
         '<div class="panel panel-info">'+
         '<div class="panel-heading">' + this.sysName + ' (' + this.id + ')' + '</div>'+
-        '<div class="panel-body"><p>' + this.sysDescription + '</p><p id="snmp"></p>';
+        '<div class="panel-body"><p>' + this.sysDescription + '</p>';
         row += '</div></div></div>';
         var $row = $(row);
         $('#opennms-nodes-body').append($row);
-        // _get_opennms_measurement(resource, $row);
+        _get_opennms_measurement(resource, $row);
 
       });
     });
@@ -300,29 +300,52 @@
   });
   function _get_opennms_measurement(resourceId, $element) {
     var ds = new Backshift.DataSource.OpenNMS({
-        url: getBaseHref() + "/opennms/rest/measurements",
-        username: onmsUsername,
-        password: onmsPassword,
-        // Define the metrics you want to retrieve
-        metrics: [
-            {
-                name: "CpuRawUser",
-                resourceId: "node[" + resourceId + "].nodeSnmp[]",
-                attribute: "CpuRawUser",
-                aggregation: "AVERAGE"
-            },
-            {
-                name: "context",
-                resourceId: "node[" + resourceId + "].nodeSnmp[]",
-                attribute: "SysRawContext",
-                aggregation: "AVERAGE"
-            }
-        ]
+      url: getBaseHref() + "/opennms/rest/measurements",
+      username: onmsUsername,
+      password: onmsPassword,
+      // Define the metrics you want to retrieve
+      metrics: [
+        {
+          name: "CpuRawUser",
+          resourceId: "node[" + resourceId + "].nodeSnmp[]",
+          attribute: "CpuRawUser",
+          aggregation: "AVERAGE"
+        },
+        {
+          name: "context",
+          resourceId: "node[" + resourceId + "].nodeSnmp[]",
+          attribute: "SysRawContext",
+          aggregation: "AVERAGE"
+        }
+      ]
     });
 
     // Retrieve the metrics over a given timespan with the desired resolution (i.e. number of points)
     ds.query(start, end, resolution).then(function(results) {
-      $('.panel-body', $element).append(JSON.stringify(results, null, 4));
+      var row_data = '<table class="table">';
+      row_data += '<thead><tr>';
+      $.each($(results['columnNames']), function(k, v) {
+        row_data += '<th>' + v + '</th>';
+      });
+      row_data += '</tr></thead>';
+      row_data += '<tbody>';
+      $.each($(results['columns'][0]), function(i) {
+        row_data += '<tr>';
+        $.each($(results['columnNames']), function(k, v) {
+          if(v == 'timestamp') {
+            var _data = dataFromTimestamp(results['columns'][k][i]);
+            _data = _data.fullDate + " : " + _data.fullTime;
+          }
+          else {
+            var _data = results['columns'][k][i];
+          }
+          row_data += '<td>' + _data + '</td>';
+        });
+        row_data += '</tr>';
+      });
+      row_data += '</tbody>';
+      row_data += '</table>';
+      $('.panel-body', $element).append(row_data);
     }, function(err){
 
     });
