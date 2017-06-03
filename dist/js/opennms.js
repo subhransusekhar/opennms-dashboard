@@ -3,7 +3,7 @@ var onmsHost = "demo.opennms.org",
         onmsUsername = 'demo',
         onmsPassword = 'demo',
         end = Date.now(),
-        start = end - (1 * 60 * 60 * 1000), // 8 hours ago
+        start = end - (1 * 2 * 60 * 1000), // 2 Minutes ago
         resolution = 5;
 
 

@@ -153,6 +153,12 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/opennms.js"></script>
@@ -160,7 +166,7 @@
     $(document).ready(function () {
       // Pull in the graph definition
       $.ajax({
-        url: getBaseHref() + '/opennms/rest/nodes',
+        url: getBaseHref() + '/opennms/rest/nodes?limit=0',
         dataType: 'json',
         headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
         xhrFields: {
@@ -168,34 +174,15 @@
         },
         context: $(this)
       }).done(function (results) {
-        var head = $('#opennms-node-table thead');
-        var body = $('#opennms-node-table tbody');
-        var row = '';
-        var jsonData = results.node;
-        var show_columns = ["label","foreignId","sysName","id"];
-
-        row += '<tr>';
-        $.each($(jsonData).last()[0], function(k, v) {
-          if($.inArray( k, show_columns ) >= 0) {
-            row += '<th>' + k + '</th>';
-          }
-        });
-        row += '</tr>';
-
-        head.append(row);
-
-
-        $.each(jsonData, function() {
-          row = '<tr>';
-          $.each(this, function(k, v) {
-            if($.inArray( k, show_columns ) >= 0 ) {
-              row += '<td>' + v  + '</td>';
-            }
-          });
-          row += '</tr>';
-
-          body.append(row);
-        })
+        $('#opennms-node-table').DataTable( {
+        data: results.node,
+        "columns": [
+            { "title" : "ID", "data" : "id" },
+            { "title" : "Label", "data" : "label" },
+            { "title" : "System Name", "data" : "sysName" },
+            { "title" : "Foreign ID", "data" : "foreignId"}
+        ]
+      } );
       });
     });
     </script>

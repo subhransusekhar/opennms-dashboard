@@ -322,7 +322,7 @@
 
     // Retrieve the metrics over a given timespan with the desired resolution (i.e. number of points)
     ds.query(start, end, resolution).then(function(results) {
-      var row_data = '<table class="table">';
+      var row_data = '<table class="table table-striped table-bordered table-hover">';
       row_data += '<thead><tr>';
       $.each($(results['columnNames']), function(k, v) {
         row_data += '<th>' + v + '</th>';

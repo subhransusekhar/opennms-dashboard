@@ -110,7 +110,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table id="opennms-event-table" class="table">
+                                <table id="opennms-event-table" class="table table-striped table-bordered table-hover">
                                     <thead>
                                     </thead>
                                     <tbody>
@@ -154,6 +154,12 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/opennms.js"></script>
@@ -161,7 +167,7 @@
     $(document).ready(function () {
       // Pull in the graph definition
       $.ajax({
-        url: getBaseHref() + '/opennms/rest/events',
+        url: getBaseHref() + '/opennms/rest/events?limit=100',
         dataType: 'json',
         headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
         xhrFields: {
@@ -169,30 +175,19 @@
         },
         context: $(this)
       }).done(function (results) {
-        var head = $('#opennms-event-table thead');
-        var body = $('#opennms-event-table tbody');
-        var row = '';
-        var jsonData = results.event;
-        var show_columns = ["label","foreignId","sysName","id"];
-
-        row += '<tr>';
-        $.each($(jsonData).last()[0], function(k, v) {
-          row += '<th>' + k + '</th>';
-        });
-        row += '</tr>';
-
-        head.append(row);
-
-
-        $.each(jsonData, function() {
-          row = '<tr>';
-          $.each(this, function(k, v) {
-            row += '<td>' + v  + '</td>';
-          });
-          row += '</tr>';
-
-          body.append(row);
-        })
+        $('#opennms-event-table').DataTable( {
+        data: results.event,
+        "columns": [
+            { "title" : "ID", "data" : "id" },
+            { "title" : "NodeID", "data" : "nodeId" },
+            { "title" : "severity", "data" : "severity" },
+            { "title" : "Node Label", "data" : "nodeLabel" },
+            { "title" : "IP Address", "data" : "ipAddress"},
+            { "title" : "Source", "data" : "source" },
+            { "title" : "Description", "data" : "description" },
+            { "title" : "Log Message", "data" : "logMessage" }
+        ]
+      } );
       });
     });
     </script>
