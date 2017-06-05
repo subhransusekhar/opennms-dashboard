@@ -258,6 +258,8 @@
     <script src="../dist/js/opennms.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+      end = Date.now();
+      start = end - (8 * 60 * 60 * 1000);
         $("div[data-graph-report]").each(function () {
             var report = $(this).data('graph-report');
             var resource = $(this).data('graph-resource');

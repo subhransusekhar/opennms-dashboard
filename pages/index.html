@@ -241,7 +241,7 @@
     var resource = '';
     // Pull in the graph definition
     $.ajax({
-      url: getBaseHref() + '/opennms/rest/nodes',
+      url: getBaseHref() + '/opennms/rest/nodes?limit=0',
       dataType: 'json',
       headers: {"Authorization": "Basic " + window.btoa(onmsUsername + ":" + onmsPassword)},
       xhrFields: {
